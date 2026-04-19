@@ -78,7 +78,11 @@ def _try_generate(seed: int, cfg: GeneratorConfig) -> GeneratorOutput:
     from .icons import place_icons
     from .annotations import place_dimensions
     from .themes import get_theme
-    from .rendering import render_canvas, render_rooms, render_walls, render_openings, render_icons, render_annotations
+    from .linework import get_linework
+    from .rendering import (
+        render_canvas, render_rooms, render_walls, render_openings,
+        render_icons, render_annotations, render_era_overlays,
+    )
     from .rendering.text import render_room_labels
     from .augmentation import apply_augmentation
     from .augmentation.spatial import apply_spatial, yolo_from_mask
@@ -86,6 +90,7 @@ def _try_generate(seed: int, cfg: GeneratorConfig) -> GeneratorOutput:
 
     rng = bundle_from_seed(seed)
     era = cfg.resolved_era(rng["footprint"])
+    spec = get_linework(era)
     preset_name = cfg.resolved_preset(era)
     aggression = cfg.resolved_aggression(rng["footprint"])
 
@@ -116,8 +121,9 @@ def _try_generate(seed: int, cfg: GeneratorConfig) -> GeneratorOutput:
     force_mono = bool(rng["theme"].random() < cfg.monochrome_prob)
     canvas = render_canvas(cfg.image_size, theme, force_mono)
     render_rooms(canvas, rooms, theme, rng["theme"])
-    render_walls(canvas, walls, theme, rng["theme"])
-    render_openings(canvas, openings, walls, theme, rng["theme"])
+    render_walls(canvas, walls, theme, rng["theme"], spec=spec)
+    render_openings(canvas, openings, walls, theme, rng["theme"], spec=spec)
+    render_era_overlays(canvas, rooms, theme, spec)
     render_icons(canvas, icons, theme, rng["theme"])
     render_annotations(canvas, annotations, theme, rng["theme"])
 

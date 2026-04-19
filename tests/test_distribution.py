@@ -9,16 +9,16 @@ from floorplangen import generate_sample
 
 @pytest.mark.slow
 def test_era_mix(default_config) -> None:
-    counts = {"scan": 0, "digital": 0, "soviet": 0}
+    counts = {"soviet": 0, "transitional": 0, "modern": 0}
     N = 60
     for s in range(N):
         r = generate_sample(seed=s, image_size=(256, 256),
                             icon_pack_dir=str(default_config.icon_pack_dir))
         counts[str(r.metadata["era"])] += 1
-    # Expected: scan 0.60, digital 0.25, soviet 0.15. With N=60 we use wide bands.
-    assert counts["scan"] / N > 0.40
-    assert counts["digital"] / N > 0.10
-    assert counts["soviet"] / N > 0.03
+    # Expected: soviet 0.30, transitional 0.40, modern 0.30. Wide bands for N=60.
+    assert counts["transitional"] / N > 0.20
+    assert counts["soviet"] / N > 0.10
+    assert counts["modern"] / N > 0.10
 
 
 @pytest.mark.slow

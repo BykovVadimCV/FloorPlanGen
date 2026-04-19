@@ -1,19 +1,22 @@
-"""Opening placement (DESIGN §6).
+"""Opening placement — windows on exterior walls, doors on interior walls.
 
-Windows-first placement on eligible (axis-aligned, non-diagonal, long-enough) wall
-segments. Doors placed on interior walls with a swing arc. Diagonal walls are
-explicitly excluded (§4.7, no_annotate=True).
+Diagonal walls are excluded (`no_annotate=True`). Per-opening era parameters:
+
+  - Door `leaf_angle_deg`  ∈ {30°, 90°} per LineworkSpec.door weights.
+  - Window `window_line_count` ∈ {2, 3, 4} per LineworkSpec.window weights.
+
+The swing-arc footprint is always the full 90° sector so the class-3 mask
+region is deterministic; the leaf angle only affects rendering.
 """
 from __future__ import annotations
 
 import math
 
 import numpy as np
-from shapely.affinity import rotate, translate
-from shapely.geometry import LineString, Polygon, Point
-from shapely.ops import unary_union
+from shapely.geometry import LineString, Polygon
 
 from ..config import GeneratorConfig
+from ..linework import get_linework
 from ..types import Footprint, Opening, Room, WallGraph, WallSegment
 
 MIN_WINDOW_LEN_PX_AT_512 = 50.0
@@ -29,7 +32,6 @@ def _scale(image_size: tuple[int, int], v: float) -> float:
 def _eligible_for_opening(seg: WallSegment, image_size) -> bool:
     if seg.no_annotate or seg.is_diagonal:
         return False
-    # Axis-aligned only (§6.2): require angle ~0 or ~90 within ±1°
     a = abs(seg.angle_deg)
     if not (a < 1.5 or abs(a - 90.0) < 1.5):
         return False
@@ -38,16 +40,8 @@ def _eligible_for_opening(seg: WallSegment, image_size) -> bool:
     return True
 
 
-def _segment_axis_aligned_bbox(seg: WallSegment) -> tuple[float, float, float, float]:
-    """Return (x0, y0, x1, y1) along-axis bounds of the centreline."""
-    xs = [p[0] for p in seg.centreline.coords]
-    ys = [p[1] for p in seg.centreline.coords]
-    return min(xs), min(ys), max(xs), max(ys)
-
-
 def _slab_polygon_along_wall(seg: WallSegment, along_t0: float, along_t1: float,
                              thickness: float) -> Polygon:
-    """Rectangle slab aligned with wall centreline, spanning t in [t0, t1]."""
     (x0, y0), (x1, y1) = list(seg.centreline.coords)[0], list(seg.centreline.coords)[-1]
     dx = x1 - x0
     dy = y1 - y0
@@ -69,7 +63,7 @@ def _slab_polygon_along_wall(seg: WallSegment, along_t0: float, along_t1: float,
 
 def _door_swing_arc(seg: WallSegment, along_t0: float, along_t1: float,
                     thickness: float, open_inward: bool) -> Polygon:
-    """Pie-slice swing arc attached at the hinge point."""
+    """Full 90° pie-slice from the hinge — defines the class-3 mask region."""
     coords = list(seg.centreline.coords)
     (x0, y0), (x1, y1) = coords[0], coords[-1]
     dx = x1 - x0
@@ -81,13 +75,10 @@ def _door_swing_arc(seg: WallSegment, along_t0: float, along_t1: float,
         nx, ny = -nx, -ny
     hinge = (x0 + ux * along_t0, y0 + uy * along_t0)
     door_w = along_t1 - along_t0
-    # Create a 90° pie sector
     n_steps = 14
     pts = [hinge]
     for i in range(n_steps + 1):
         ang = (math.pi / 2.0) * i / n_steps
-        # Direction vector: starts along the wall (toward the door leaf)
-        # and sweeps toward the normal
         cx = ux * math.cos(ang) + nx * math.sin(ang)
         cy = uy * math.cos(ang) + ny * math.sin(ang)
         pts.append((hinge[0] + cx * door_w, hinge[1] + cy * door_w))
@@ -101,10 +92,11 @@ def _door_swing_arc(seg: WallSegment, along_t0: float, along_t1: float,
 def place_openings(footprint: Footprint, rooms: list[Room],
                    walls: WallGraph, cfg: GeneratorConfig,
                    rng: np.random.Generator, era: str) -> list[Opening]:
+    spec = get_linework(era)
     openings: list[Opening] = []
-    occupied = []  # list of (wall_idx, t0, t1) to prevent overlap on same wall
+    occupied: list[tuple[int, float, float]] = []
 
-    # ── Windows first on exterior walls (§6.7) ────────────────────────────
+    # Windows on exterior walls
     exterior_indices = [i for i, s in enumerate(walls.segments)
                         if s.is_exterior and _eligible_for_opening(s, cfg.image_size)]
     rng.shuffle(exterior_indices)
@@ -127,11 +119,14 @@ def place_openings(footprint: Footprint, rooms: list[Room],
         t0 = float(rng.uniform(margin, t_hi))
         t1 = t0 + w
         slab = _slab_polygon_along_wall(seg, t0, t1, seg.thickness_px * 1.05)
-        openings.append(Opening(kind="window", polygon=slab, wall_index=i,
-                                bbox=slab.bounds))
+        openings.append(Opening(
+            kind="window", polygon=slab, wall_index=i,
+            bbox=slab.bounds,
+            window_line_count=spec.sample_window_line_count(rng),
+        ))
         occupied.append((i, t0, t1))
 
-    # ── Doors on interior walls (§6.6) ─────────────────────────────────────
+    # Doors on interior walls
     interior_indices = [i for i, s in enumerate(walls.segments)
                         if (not s.is_exterior) and _eligible_for_opening(s, cfg.image_size)]
     rng.shuffle(interior_indices)
@@ -158,14 +153,16 @@ def place_openings(footprint: Footprint, rooms: list[Room],
         open_inward = bool(rng.random() < 0.5)
         try:
             arc = _door_swing_arc(seg, t0, t1, seg.thickness_px, open_inward)
-            # Clip the arc to the footprint so it never extends outside
             arc = arc.intersection(footprint.polygon)
             if not isinstance(arc, Polygon) or arc.is_empty:
                 arc = None
         except Exception:
             arc = None
-        openings.append(Opening(kind="door", polygon=slab, wall_index=i,
-                                swing_arc=arc, bbox=slab.bounds))
+        openings.append(Opening(
+            kind="door", polygon=slab, wall_index=i,
+            swing_arc=arc, bbox=slab.bounds,
+            leaf_angle_deg=spec.sample_door_angle_deg(rng),
+        ))
         occupied.append((i, t0, t1))
 
     return openings

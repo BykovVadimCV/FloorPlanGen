@@ -5,9 +5,9 @@
     0.5
   ],
   "era_compatible": [
-    "scan",
-    "digital",
-    "soviet"
+    "soviet",
+    "transitional",
+    "modern"
   ],
   "allow_rotation": [
     0,

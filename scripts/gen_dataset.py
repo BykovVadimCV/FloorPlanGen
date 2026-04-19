@@ -62,7 +62,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--seed-start", type=int, default=0)
     p.add_argument("--workers", type=int, default=max(1, (os.cpu_count() or 2) - 1))
     p.add_argument("--size", type=int, nargs=2, default=(512, 512))
-    p.add_argument("--era", choices=["scan", "digital", "soviet"], default=None)
+    p.add_argument("--era", choices=["soviet", "transitional", "modern"], default=None)
     p.add_argument("--preset", choices=["clean", "medium", "heavy"], default=None)
     p.add_argument("--aggression", type=float, default=None)
     p.add_argument("--monochrome-prob", type=float, default=0.70)

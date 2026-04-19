@@ -43,7 +43,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--size", type=int, nargs=2, default=(512, 512),
                    metavar=("H", "W"))
-    p.add_argument("--era", choices=["scan", "digital", "soviet"], default=None)
+    p.add_argument("--era", choices=["soviet", "transitional", "modern"], default=None)
     p.add_argument("--aggression", type=float, default=None)
     p.add_argument("--icon-pack", type=Path, default=None)
     p.add_argument("--preset", choices=["clean", "medium", "heavy"], default=None)

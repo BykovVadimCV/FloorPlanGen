@@ -19,8 +19,8 @@ def _pipeline(seed: int):
     fp = generate_footprint(IMG, 0.5, rng["footprint"], margin=16)
     cfg = GeneratorConfig()
     rooms = subdivide(fp, cfg, rng["subdivision"])
-    walls = build_wall_graph(fp, rooms, cfg, rng["walls"], rng["diagonal"], era="scan")
-    openings = place_openings(fp, rooms, walls, cfg, rng["openings"], era="scan")
+    walls = build_wall_graph(fp, rooms, cfg, rng["walls"], rng["diagonal"], era="transitional")
+    openings = place_openings(fp, rooms, walls, cfg, rng["openings"], era="transitional")
     return fp, walls, openings
 
 
