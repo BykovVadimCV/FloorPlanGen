@@ -1,0 +1,296 @@
+{
+  "RECT_scan": {
+    "mask_sha": "14958fa36ce57e61",
+    "class_mask_sha": "ab054455d0e5eb82",
+    "image_shape": [
+      512,
+      512
+    ],
+    "mask_shape": [
+      512,
+      512
+    ],
+    "wall_count": 55,
+    "room_count": 6
+  },
+  "RECT_digital": {
+    "mask_sha": "14958fa36ce57e61",
+    "class_mask_sha": "ab054455d0e5eb82",
+    "image_shape": [
+      512,
+      512
+    ],
+    "mask_shape": [
+      512,
+      512
+    ],
+    "wall_count": 55,
+    "room_count": 6
+  },
+  "RECT_soviet": {
+    "mask_sha": "14958fa36ce57e61",
+    "class_mask_sha": "ab054455d0e5eb82",
+    "image_shape": [
+      512,
+      512
+    ],
+    "mask_shape": [
+      512,
+      512
+    ],
+    "wall_count": 55,
+    "room_count": 6
+  },
+  "L_scan": {
+    "mask_sha": "9cadd31966e6cec8",
+    "class_mask_sha": "77c4231ae2b559da",
+    "image_shape": [
+      512,
+      512
+    ],
+    "mask_shape": [
+      512,
+      512
+    ],
+    "wall_count": 38,
+    "room_count": 5
+  },
+  "L_digital": {
+    "mask_sha": "9cadd31966e6cec8",
+    "class_mask_sha": "77c4231ae2b559da",
+    "image_shape": [
+      512,
+      512
+    ],
+    "mask_shape": [
+      512,
+      512
+    ],
+    "wall_count": 38,
+    "room_count": 5
+  },
+  "L_soviet": {
+    "mask_sha": "9cadd31966e6cec8",
+    "class_mask_sha": "77c4231ae2b559da",
+    "image_shape": [
+      512,
+      512
+    ],
+    "mask_shape": [
+      512,
+      512
+    ],
+    "wall_count": 38,
+    "room_count": 5
+  },
+  "T_scan": {
+    "mask_sha": "b60de0974f50572d",
+    "class_mask_sha": "fde5f4ba550bcb8d",
+    "image_shape": [
+      512,
+      512
+    ],
+    "mask_shape": [
+      512,
+      512
+    ],
+    "wall_count": 49,
+    "room_count": 5
+  },
+  "T_digital": {
+    "mask_sha": "b60de0974f50572d",
+    "class_mask_sha": "fde5f4ba550bcb8d",
+    "image_shape": [
+      512,
+      512
+    ],
+    "mask_shape": [
+      512,
+      512
+    ],
+    "wall_count": 49,
+    "room_count": 5
+  },
+  "T_soviet": {
+    "mask_sha": "b60de0974f50572d",
+    "class_mask_sha": "fde5f4ba550bcb8d",
+    "image_shape": [
+      512,
+      512
+    ],
+    "mask_shape": [
+      512,
+      512
+    ],
+    "wall_count": 49,
+    "room_count": 5
+  },
+  "U_scan": {
+    "mask_sha": "44633cd2eb770d84",
+    "class_mask_sha": "82dcf5effb13d9a1",
+    "image_shape": [
+      512,
+      512
+    ],
+    "mask_shape": [
+      512,
+      512
+    ],
+    "wall_count": 45,
+    "room_count": 5
+  },
+  "U_digital": {
+    "mask_sha": "44633cd2eb770d84",
+    "class_mask_sha": "82dcf5effb13d9a1",
+    "image_shape": [
+      512,
+      512
+    ],
+    "mask_shape": [
+      512,
+      512
+    ],
+    "wall_count": 45,
+    "room_count": 5
+  },
+  "U_soviet": {
+    "mask_sha": "d857af80bae018ec",
+    "class_mask_sha": "2a2de0080d03633a",
+    "image_shape": [
+      512,
+      512
+    ],
+    "mask_shape": [
+      512,
+      512
+    ],
+    "wall_count": 45,
+    "room_count": 5
+  },
+  "Z_scan": {
+    "mask_sha": "038f2cd65bb3fc65",
+    "class_mask_sha": "b08f249208907a10",
+    "image_shape": [
+      512,
+      512
+    ],
+    "mask_shape": [
+      512,
+      512
+    ],
+    "wall_count": 46,
+    "room_count": 5
+  },
+  "Z_digital": {
+    "mask_sha": "038f2cd65bb3fc65",
+    "class_mask_sha": "b08f249208907a10",
+    "image_shape": [
+      512,
+      512
+    ],
+    "mask_shape": [
+      512,
+      512
+    ],
+    "wall_count": 46,
+    "room_count": 5
+  },
+  "Z_soviet": {
+    "mask_sha": "038f2cd65bb3fc65",
+    "class_mask_sha": "b08f249208907a10",
+    "image_shape": [
+      512,
+      512
+    ],
+    "mask_shape": [
+      512,
+      512
+    ],
+    "wall_count": 46,
+    "room_count": 5
+  },
+  "STAIR_scan": {
+    "mask_sha": "730425498123ae8b",
+    "class_mask_sha": "b052e07931687702",
+    "image_shape": [
+      512,
+      512
+    ],
+    "mask_shape": [
+      512,
+      512
+    ],
+    "wall_count": 57,
+    "room_count": 6
+  },
+  "STAIR_digital": {
+    "mask_sha": "730425498123ae8b",
+    "class_mask_sha": "b052e07931687702",
+    "image_shape": [
+      512,
+      512
+    ],
+    "mask_shape": [
+      512,
+      512
+    ],
+    "wall_count": 57,
+    "room_count": 6
+  },
+  "STAIR_soviet": {
+    "mask_sha": "edcb89f0e84057d0",
+    "class_mask_sha": "fe3fc9d5e735c9c8",
+    "image_shape": [
+      512,
+      512
+    ],
+    "mask_shape": [
+      512,
+      512
+    ],
+    "wall_count": 57,
+    "room_count": 6
+  },
+  "BEVEL_scan": {
+    "mask_sha": "69ba0098cea18a35",
+    "class_mask_sha": "d4dd51bf630891cf",
+    "image_shape": [
+      512,
+      512
+    ],
+    "mask_shape": [
+      512,
+      512
+    ],
+    "wall_count": 54,
+    "room_count": 6
+  },
+  "BEVEL_digital": {
+    "mask_sha": "69ba0098cea18a35",
+    "class_mask_sha": "d4dd51bf630891cf",
+    "image_shape": [
+      512,
+      512
+    ],
+    "mask_shape": [
+      512,
+      512
+    ],
+    "wall_count": 54,
+    "room_count": 6
+  },
+  "BEVEL_soviet": {
+    "mask_sha": "69ba0098cea18a35",
+    "class_mask_sha": "d4dd51bf630891cf",
+    "image_shape": [
+      512,
+      512
+    ],
+    "mask_shape": [
+      512,
+      512
+    ],
+    "wall_count": 54,
+    "room_count": 6
+  }
+}

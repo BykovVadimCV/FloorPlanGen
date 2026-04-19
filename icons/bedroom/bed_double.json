@@ -1,0 +1,19 @@
+{
+  "category": "bedroom",
+  "anchor": [
+    0.5,
+    0.5
+  ],
+  "era_compatible": [
+    "scan",
+    "digital",
+    "soviet"
+  ],
+  "allow_rotation": [
+    0,
+    90,
+    180,
+    270
+  ],
+  "min_room_area_frac": 0.06
+}
