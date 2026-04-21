@@ -1,7 +1,7 @@
 {
   "RECT_soviet": {
-    "mask_sha": "04e8c0e407d0d6f7",
-    "class_mask_sha": "a3e125b76db6bebf",
+    "mask_sha": "eaef7c09e4061365",
+    "class_mask_sha": "c0bae3816c0e6215",
     "image_shape": [
       512,
       512
@@ -14,8 +14,8 @@
     "room_count": 8
   },
   "RECT_transitional": {
-    "mask_sha": "ad63cf66e1914c67",
-    "class_mask_sha": "981c8063b4df6ae2",
+    "mask_sha": "928ec9a4b9bbf2a4",
+    "class_mask_sha": "88ecb59a00d3037d",
     "image_shape": [
       512,
       512
@@ -28,8 +28,8 @@
     "room_count": 8
   },
   "RECT_modern": {
-    "mask_sha": "376c784945a7c62e",
-    "class_mask_sha": "6f13c5df3a3efc82",
+    "mask_sha": "f216d09810121133",
+    "class_mask_sha": "b8a3de2c38224d1f",
     "image_shape": [
       512,
       512
@@ -42,8 +42,8 @@
     "room_count": 8
   },
   "L_soviet": {
-    "mask_sha": "ae649c4208c15672",
-    "class_mask_sha": "f10f067099c8a2d3",
+    "mask_sha": "26406dde9263c10d",
+    "class_mask_sha": "a7a746477acbd44a",
     "image_shape": [
       512,
       512
@@ -56,8 +56,8 @@
     "room_count": 8
   },
   "L_transitional": {
-    "mask_sha": "318bd9835d51d87f",
-    "class_mask_sha": "d73ec721d48057fa",
+    "mask_sha": "75ac8d50531af35e",
+    "class_mask_sha": "3851a086218e4f7e",
     "image_shape": [
       512,
       512
@@ -70,8 +70,8 @@
     "room_count": 8
   },
   "L_modern": {
-    "mask_sha": "aecb9b6f593ad484",
-    "class_mask_sha": "12f8205087e18de4",
+    "mask_sha": "8fa31a6802c62ee9",
+    "class_mask_sha": "82175ac830859b4c",
     "image_shape": [
       512,
       512
@@ -84,8 +84,8 @@
     "room_count": 8
   },
   "T_soviet": {
-    "mask_sha": "2ba8b3adce770c3a",
-    "class_mask_sha": "2054fe85332ec070",
+    "mask_sha": "76c651f3831f334e",
+    "class_mask_sha": "eedb01f6815bdb84",
     "image_shape": [
       512,
       512
@@ -98,8 +98,8 @@
     "room_count": 7
   },
   "T_transitional": {
-    "mask_sha": "a969663e880f3637",
-    "class_mask_sha": "c0e5dfe42af4dfb8",
+    "mask_sha": "b27067da6ee6d9b3",
+    "class_mask_sha": "3ab4d3dca7cdeac7",
     "image_shape": [
       512,
       512
@@ -112,8 +112,8 @@
     "room_count": 7
   },
   "T_modern": {
-    "mask_sha": "6d3fc47832f44277",
-    "class_mask_sha": "8c36bdb6b613b8c7",
+    "mask_sha": "0f0d5fff58c256cc",
+    "class_mask_sha": "b339038bc05e95e5",
     "image_shape": [
       512,
       512
@@ -126,8 +126,8 @@
     "room_count": 7
   },
   "U_soviet": {
-    "mask_sha": "b2b240e8086ac1af",
-    "class_mask_sha": "700eb4b7a4e5d1ec",
+    "mask_sha": "32909fb6bebfe9e8",
+    "class_mask_sha": "952a3244fd76d17e",
     "image_shape": [
       512,
       512
@@ -140,8 +140,8 @@
     "room_count": 8
   },
   "U_transitional": {
-    "mask_sha": "d6a2a35ede8eef8e",
-    "class_mask_sha": "d05b3720de706ee1",
+    "mask_sha": "f5a5d88382914ac2",
+    "class_mask_sha": "833c306dabc813f7",
     "image_shape": [
       512,
       512
@@ -154,8 +154,8 @@
     "room_count": 8
   },
   "U_modern": {
-    "mask_sha": "8cb57aca5d9b1a39",
-    "class_mask_sha": "754f283480c6d8d8",
+    "mask_sha": "5aa51b0fe24eaac3",
+    "class_mask_sha": "73240baa2c52f135",
     "image_shape": [
       512,
       512
@@ -168,8 +168,8 @@
     "room_count": 8
   },
   "Z_soviet": {
-    "mask_sha": "354cc492825c27c1",
-    "class_mask_sha": "171adc1b27b6c095",
+    "mask_sha": "25a873ce906b32c7",
+    "class_mask_sha": "5c1c5a32f0addd31",
     "image_shape": [
       512,
       512
@@ -182,8 +182,8 @@
     "room_count": 7
   },
   "Z_transitional": {
-    "mask_sha": "032a0f9d29fc2529",
-    "class_mask_sha": "5f42d7b2e57a6a6b",
+    "mask_sha": "93b8bf950d32b930",
+    "class_mask_sha": "5dd1cf107e07f14d",
     "image_shape": [
       512,
       512
@@ -196,8 +196,8 @@
     "room_count": 7
   },
   "Z_modern": {
-    "mask_sha": "89db60129d535131",
-    "class_mask_sha": "4c61b59fa9328020",
+    "mask_sha": "52b1e96348e88226",
+    "class_mask_sha": "4a47c7a518f57640",
     "image_shape": [
       512,
       512
@@ -210,8 +210,8 @@
     "room_count": 7
   },
   "STAIR_soviet": {
-    "mask_sha": "5b6eb50e29550282",
-    "class_mask_sha": "ed1085903339feb0",
+    "mask_sha": "faa561c91d013682",
+    "class_mask_sha": "579ffbdae0d82789",
     "image_shape": [
       512,
       512
@@ -224,8 +224,8 @@
     "room_count": 8
   },
   "STAIR_transitional": {
-    "mask_sha": "d4b4d4dbb1197c33",
-    "class_mask_sha": "d7e1c4ba4f6e31fe",
+    "mask_sha": "56598a8b2845e6b5",
+    "class_mask_sha": "1d47d139a48ffbac",
     "image_shape": [
       512,
       512
@@ -238,8 +238,8 @@
     "room_count": 8
   },
   "STAIR_modern": {
-    "mask_sha": "0edb2103977da782",
-    "class_mask_sha": "103f9dbee3845ad2",
+    "mask_sha": "33dc89965f2c97b9",
+    "class_mask_sha": "0bce4918506c387d",
     "image_shape": [
       512,
       512
@@ -252,8 +252,8 @@
     "room_count": 8
   },
   "BEVEL_soviet": {
-    "mask_sha": "323ca8bcba0778f0",
-    "class_mask_sha": "bc073681a712aa49",
+    "mask_sha": "b885336e81c329df",
+    "class_mask_sha": "0a818d5687a2d10f",
     "image_shape": [
       512,
       512
@@ -266,8 +266,8 @@
     "room_count": 8
   },
   "BEVEL_transitional": {
-    "mask_sha": "94c0eb6f3d83eee3",
-    "class_mask_sha": "7d4b05767d1fff78",
+    "mask_sha": "38e94beca42e7eb1",
+    "class_mask_sha": "87b619c356b39e4c",
     "image_shape": [
       512,
       512
@@ -280,8 +280,8 @@
     "room_count": 8
   },
   "BEVEL_modern": {
-    "mask_sha": "4e1c2b09b38000c2",
-    "class_mask_sha": "b6a1e4fc3ac5857b",
+    "mask_sha": "b2101613b56c69cf",
+    "class_mask_sha": "69acb003a58b8d94",
     "image_shape": [
       512,
       512

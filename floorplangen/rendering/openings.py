@@ -145,9 +145,10 @@ def render_openings(canvas: np.ndarray, openings: list[Opening],
     pastel = _rgb_to_cv(pastel_rgb, channels) if pastel_rgb else None
     h, w = canvas.shape[:2]
     ppm = px_per_mm((h, w))
-    contour_thk = max(1, int(round(spec.wall.outline_px * ppm)))
-    arc_thk = max(1, int(round(spec.door.arc_weight_px * ppm)))
-    frame_thk = max(1, int(round(spec.window.frame_weight_px * ppm)))
+    _cap = 5
+    contour_thk = min(_cap, max(1, int(round(spec.wall.outline_px * ppm))))
+    arc_thk     = min(_cap, max(1, int(round(spec.door.arc_weight_px * ppm))))
+    frame_thk   = min(_cap, max(1, int(round(spec.window.frame_weight_px * ppm))))
 
     line_colour = ink
     if pastel_mode == "solid" and pastel is not None:
