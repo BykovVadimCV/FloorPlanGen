@@ -151,21 +151,21 @@ def _soviet_spec() -> LineworkSpec:
     return LineworkSpec(
         era="soviet",
         wall=WallWeights(
-            capital_mm=(1.2, 1.8),
-            partition_mm=(0.5, 0.9),
+            capital_mm=(0.4, 0.65),
+            partition_mm=(0.18, 0.30),
             capital_share=0.40,
-            outline_px=0.25,
+            outline_px=0.20,
         ),
         wall_style_mix={"solid": 0.10, "hollow": 0.65, "hatch": 0.25},
         door=DoorSpec(
             angle_deg_choices=(30.0, 90.0),
             angle_deg_weights=(0.40, 0.60),
-            arc_weight_px=0.25,
+            arc_weight_px=0.20,
         ),
         window=WindowSpec(
             line_count_choices=(2, 3),
             line_count_weights=(0.35, 0.65),
-            frame_weight_px=0.25,
+            frame_weight_px=0.20,
         ),
         vent=VentShaftSpec(style="cross_hatch"),
         stroke=StrokeSpec(
@@ -189,21 +189,21 @@ def _transitional_spec() -> LineworkSpec:
     return LineworkSpec(
         era="transitional",
         wall=WallWeights(
-            capital_mm=(1.0, 1.6),
-            partition_mm=(0.4, 0.8),
+            capital_mm=(0.35, 0.60),
+            partition_mm=(0.15, 0.28),
             capital_share=0.50,
-            outline_px=0.20,
+            outline_px=0.18,
         ),
         wall_style_mix={"solid": 0.40, "hollow": 0.55, "hatch": 0.05},
         door=DoorSpec(
             angle_deg_choices=(30.0, 90.0),
             angle_deg_weights=(0.30, 0.70),
-            arc_weight_px=0.20,
+            arc_weight_px=0.18,
         ),
         window=WindowSpec(
             line_count_choices=(3, 4),
             line_count_weights=(0.55, 0.45),
-            frame_weight_px=0.20,
+            frame_weight_px=0.18,
         ),
         vent=VentShaftSpec(style="diagonal_45"),
         stroke=StrokeSpec(
@@ -227,21 +227,21 @@ def _modern_spec() -> LineworkSpec:
     return LineworkSpec(
         era="modern",
         wall=WallWeights(
-            capital_mm=(0.8, 1.4),
-            partition_mm=(0.35, 0.7),
+            capital_mm=(0.30, 0.55),
+            partition_mm=(0.13, 0.25),
             capital_share=0.55,
-            outline_px=0.20,
+            outline_px=0.18,
         ),
         wall_style_mix={"solid": 0.50, "hollow": 0.50, "hatch": 0.00},
         door=DoorSpec(
             angle_deg_choices=(30.0, 90.0),
             angle_deg_weights=(0.50, 0.50),
-            arc_weight_px=0.20,
+            arc_weight_px=0.18,
         ),
         window=WindowSpec(
             line_count_choices=(3, 4),
             line_count_weights=(0.25, 0.75),
-            frame_weight_px=0.20,
+            frame_weight_px=0.18,
         ),
         vent=VentShaftSpec(style="solid"),
         stroke=StrokeSpec(

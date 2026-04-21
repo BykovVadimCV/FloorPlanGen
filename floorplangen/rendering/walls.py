@@ -1,12 +1,13 @@
 """Wall rendering — solid poché / hollow double-line / diagonal hatch.
 
-Style mix is per-era (Guidelines §5.1); the hollow band's contour thickness
-and the hatch spacing are scaled from the LineworkSpec paper-millimetre
-values.
+Style mix is per-era (Guidelines §5.1).
 
-Openings (windows, doors) are subtracted from the hollow wall union before
-the contour is drawn so the wall edge wraps cleanly around each opening —
-i.e. openings *replace* a stretch of wall rather than overlaying it.
+Key rendering contracts:
+  - Solid walls: drawn as exact integer-pixel rectangles (4-corner polygon),
+    no Shapely rounding or cap artefacts. Width = thickness_px, capped at 8 px.
+  - Hollow walls: outline contour only, line weight ≤ 5 px. Opening polygons
+    are subtracted from the union before drawing so the edge wraps around them.
+  - All line thicknesses (hollow outline, doors, windows) are capped at 5 px.
 """
 from __future__ import annotations
 
@@ -21,6 +22,9 @@ from ..linework import LineworkSpec, px_per_mm
 from ..themes.base import EraTheme
 from ..types import Opening, WallGraph
 from .stroke import draw_hand_stroke
+
+MAX_SOLID_HALF_PX = 4   # solid band half-width cap → 8 px total
+MAX_LINE_PX = 5         # hard cap on all drawn line thicknesses
 
 
 def _ink_color(theme: EraTheme, channels: int):
@@ -37,6 +41,27 @@ def _rgb_to_cv(rgb: tuple[int, int, int], channels: int):
         v = int(round(0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]))
         return int(v)
     return (int(rgb[2]), int(rgb[1]), int(rgb[0]))
+
+
+def _wall_rect_pts(ax: float, ay: float, bx: float, by: float,
+                   half_px: float) -> np.ndarray:
+    """4 integer-pixel corners of a wall-segment rectangle.
+
+    Computed purely from the centreline endpoints and half-width, bypassing
+    Shapely buffer so the result is a pixel-exact parallelogram (rectangle
+    for axis-aligned walls) with no sub-pixel rounding artefacts.
+    """
+    dx = bx - ax
+    dy = by - ay
+    L = math.hypot(dx, dy) or 1.0
+    nx = -dy / L * half_px
+    ny = dx / L * half_px
+    return np.array([
+        [int(round(ax + nx)), int(round(ay + ny))],
+        [int(round(bx + nx)), int(round(by + ny))],
+        [int(round(bx - nx)), int(round(by - ny))],
+        [int(round(ax - nx)), int(round(ay - ny))],
+    ], dtype=np.int32)
 
 
 def _draw_polygon_outline(canvas: np.ndarray, polygon: Polygon, color,
@@ -61,28 +86,6 @@ def _draw_polygon_outline(canvas: np.ndarray, polygon: Polygon, color,
         pass
 
 
-def _fill_polygon(canvas: np.ndarray, polygon: Polygon, color) -> None:
-    if polygon.is_empty:
-        return
-    try:
-        ext = np.array(
-            [[int(round(x)), int(round(y))] for x, y in polygon.exterior.coords],
-            dtype=np.int32,
-        )
-        holes = [
-            np.array([[int(round(x)), int(round(y))] for x, y in r.coords],
-                     dtype=np.int32)
-            for r in polygon.interiors
-        ]
-        cv2.fillPoly(canvas, [ext], color=color, lineType=cv2.LINE_AA)
-        for h in holes:
-            # Carve holes back to paper by drawing a paper fill — caller should
-            # handle per-polygon holes via subtraction before this point.
-            cv2.fillPoly(canvas, [h], color=color, lineType=cv2.LINE_AA)
-    except Exception:
-        pass
-
-
 def _iter_geoms(geom):
     if geom is None or geom.is_empty:
         return
@@ -100,40 +103,35 @@ def render_walls(canvas: np.ndarray, walls: WallGraph,
                  openings: list[Opening] | None = None,
                  pastel_mode: str | None = None,
                  pastel_rgb: tuple[int, int, int] | None = None) -> None:
-    """Render wall bands. Openings are subtracted so wall edges wrap around them.
+    """Render wall bands.
 
-    pastel_mode:
-      - None         : monochrome ink rendering.
-      - "solid"      : walls filled solid in pastel (ink-colour swapped).
-      - "hollow_fill": hollow walls get pastel interior fill but keep black
-                       outlines; solid walls still rendered in pastel too so
-                       they read as a cohesive palette.
+    Solid walls → integer-pixel filled rectangles, width ≤ 8 px.
+    Hollow walls → polygon contour, opening-subtracted, line ≤ 5 px.
     """
     channels = 1 if canvas.ndim == 2 else canvas.shape[2]
     ink = _ink_color(theme, channels)
     pastel = _rgb_to_cv(pastel_rgb, channels) if pastel_rgb else None
     h, w = canvas.shape[:2]
     ppm = px_per_mm((h, w))
-    contour_thk = max(1, int(round(spec.wall.outline_px * ppm)))
+    contour_thk = min(MAX_LINE_PX, max(1, int(round(spec.wall.outline_px * ppm))))
 
-    # Build opening-subtraction mask: a single union polygon covering every
-    # opening slab so its geometry is excluded from wall contours and fills.
+    # Opening subtraction union for hollow walls
     openings_union = None
     if openings:
-        polys = [op.polygon for op in openings if op.polygon is not None
-                 and not op.polygon.is_empty]
+        polys = [op.polygon for op in openings
+                 if op.polygon is not None and not op.polygon.is_empty]
         if polys:
             try:
                 openings_union = unary_union(polys)
             except Exception:
                 openings_union = None
 
-    # ── Hollow walls — render outline of the band (minus openings). ─────────
+    # ── Hollow walls — contour of the band union minus openings ────────────
     hollow_segs = [s for s in walls.segments if s.style == "hollow"]
     if hollow_segs:
         bands = []
         for seg in hollow_segs:
-            half = max(seg.thickness_px * 0.5, 0.6)
+            half = min(MAX_SOLID_HALF_PX, max(seg.thickness_px * 0.5, 0.6))
             b = seg.centreline.buffer(half, cap_style=2, join_style=2)
             bands.append(b)
         merged = unary_union(bands)
@@ -158,71 +156,66 @@ def render_walls(canvas: np.ndarray, walls: WallGraph,
                     [[int(round(x)), int(round(y))] for x, y in geom.exterior.coords],
                     dtype=np.int32,
                 )
-                holes = [
-                    np.array([[int(round(x)), int(round(y))] for x, y in r.coords],
-                             dtype=np.int32)
-                    for r in geom.interiors
-                ]
-                cv2.fillPoly(canvas, [ext], color=fill_color, lineType=cv2.LINE_AA)
-                for hole in holes:
-                    # nothing to do — outline pass paints them black/pastel too
-                    pass
+                cv2.fillPoly(canvas, [ext], color=fill_color,
+                             lineType=cv2.LINE_AA)
             _draw_polygon_outline(canvas, geom, outline_color, contour_thk)
 
-    # ── Solid poché / hatch walls — segment by segment. ────────────────────
-    solid_colour = pastel if pastel is not None else ink
+    # ── Solid walls — integer-pixel rectangles, no Shapely ─────────────────
+    solid_colour = (pastel if pastel is not None else ink)
     for seg in walls.segments:
+        if seg.style not in ("solid", "hatch"):
+            continue
         coords = list(seg.centreline.coords)
         if len(coords) < 2:
             continue
-        pts = np.array([[round(x), round(y)] for x, y in coords], dtype=np.int32)
 
         if seg.style == "solid":
-            thk = max(1, int(round(seg.thickness_px)))
+            half = min(float(MAX_SOLID_HALF_PX), max(seg.thickness_px * 0.5, 0.6))
+
             if theme.stroke_model == "hand" and pastel_mode is None:
+                # Hand-drawn mode: use wobble engine for Soviet era
+                pts = np.array([[round(x), round(y)] for x, y in coords],
+                               dtype=np.int32)
+                thk = max(1, min(MAX_LINE_PX * 2, int(round(seg.thickness_px))))
                 wobble = min(1.2, max(0.4, spec.stroke.wobble_amp_mm * ppm))
                 overshoot = spec.stroke.overshoot_mm * ppm
                 for i in range(len(pts) - 1):
-                    over = overshoot if rng.random() < spec.stroke.overshoot_prob else 0.0
-                    draw_hand_stroke(canvas,
-                                     (float(pts[i][0]), float(pts[i][1])),
-                                     (float(pts[i + 1][0]), float(pts[i + 1][1])),
-                                     thickness=float(thk),
-                                     color=solid_colour,
-                                     rng=rng,
-                                     overshoot_px=over,
-                                     wobble_px=wobble,
-                                     thickness_jitter=spec.stroke.thickness_jitter)
-            else:
-                # Draw as a buffered polygon so caps are flat/mitre, not round.
-                half = max(thk * 0.5, 0.6)
-                band = seg.centreline.buffer(half, cap_style=2, join_style=2)
-                if openings_union is not None:
-                    try:
-                        band = band.difference(openings_union)
-                    except Exception:
-                        pass
-                for geom in _iter_geoms(band):
-                    ext = np.array(
-                        [[int(round(x)), int(round(y))] for x, y in geom.exterior.coords],
-                        dtype=np.int32,
+                    over = (overshoot
+                            if rng.random() < spec.stroke.overshoot_prob
+                            else 0.0)
+                    draw_hand_stroke(
+                        canvas,
+                        (float(pts[i][0]), float(pts[i][1])),
+                        (float(pts[i + 1][0]), float(pts[i + 1][1])),
+                        thickness=float(thk),
+                        color=solid_colour,
+                        rng=rng,
+                        overshoot_px=over,
+                        wobble_px=wobble,
+                        thickness_jitter=spec.stroke.thickness_jitter,
                     )
-                    cv2.fillPoly(canvas, [ext], color=solid_colour,
+            else:
+                # Clean mode: exact integer-pixel rectangle per segment
+                for i in range(len(coords) - 1):
+                    ax, ay = coords[i]
+                    bx, by = coords[i + 1]
+                    rect = _wall_rect_pts(ax, ay, bx, by, half)
+                    cv2.fillPoly(canvas, [rect], color=solid_colour,
                                  lineType=cv2.LINE_AA)
 
         elif seg.style == "hatch":
-            thk = max(1, int(round(seg.thickness_px)))
-            # Outline band as two parallel lines + diagonal fill
-            half = max(thk * 0.5, 0.6)
-            band = seg.centreline.buffer(half, cap_style=2, join_style=2)
-            if openings_union is not None:
-                try:
-                    band = band.difference(openings_union)
-                except Exception:
-                    pass
-            for geom in _iter_geoms(band):
-                _draw_polygon_outline(canvas, geom, solid_colour, contour_thk)
+            half = min(float(MAX_SOLID_HALF_PX), max(seg.thickness_px * 0.5, 0.6))
+            for i in range(len(coords) - 1):
+                ax, ay = coords[i]
+                bx, by = coords[i + 1]
+                rect = _wall_rect_pts(ax, ay, bx, by, half)
+                _draw_polygon_outline(canvas,
+                                      Polygon(rect.tolist()),
+                                      solid_colour, contour_thk)
+            # Diagonal tick marks inside the band
             step = max(2.0, spec.hatch_spacing_mm * ppm)
+            pts = np.array([[round(x), round(y)] for x, y in coords],
+                           dtype=np.int32)
             for i in range(len(pts) - 1):
                 a = pts[i].astype(float)
                 b = pts[i + 1].astype(float)
@@ -236,5 +229,5 @@ def render_walls(canvas: np.ndarray, walls: WallGraph,
                     p = a + d * t
                     p1 = (int(p[0] - 3), int(p[1] - 3))
                     p2 = (int(p[0] + 3), int(p[1] + 3))
-                    cv2.line(canvas, p1, p2, color=solid_colour, thickness=1,
-                             lineType=cv2.LINE_AA)
+                    cv2.line(canvas, p1, p2, color=solid_colour,
+                             thickness=1, lineType=cv2.LINE_AA)
