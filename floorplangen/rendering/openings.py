@@ -34,6 +34,13 @@ def _paper_color(theme: EraTheme, channels: int):
     return (int(theme.paper_rgb[2]), int(theme.paper_rgb[1]), int(theme.paper_rgb[0]))
 
 
+def _rgb_to_cv(rgb: tuple[int, int, int], channels: int):
+    if channels == 1:
+        v = int(round(0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]))
+        return int(v)
+    return (int(rgb[2]), int(rgb[1]), int(rgb[0]))
+
+
 def _draw_window_lines(canvas: np.ndarray, rect: np.ndarray, n_lines: int,
                        color, thickness: int) -> None:
     """Draw `n_lines` evenly-spaced parallel lines along the window long axis."""
@@ -118,25 +125,45 @@ def _draw_door_arc(canvas: np.ndarray, op: Opening, color, thickness: int) -> No
 
 def render_openings(canvas: np.ndarray, openings: list[Opening],
                     walls: WallGraph, theme: EraTheme, rng,
-                    spec: LineworkSpec) -> None:
+                    spec: LineworkSpec,
+                    pastel_mode: str | None = None,
+                    pastel_rgb: tuple[int, int, int] | None = None) -> None:
+    """Render window and door openings.
+
+    Openings are drawn after walls; the opening slab fills paper-colour so the
+    wall band underneath is replaced. Outline + window lines + door leaves
+    then sit on top.
+
+    Pastel modes:
+      - "solid"       : openings drawn in pastel (matches solid-pastel walls).
+      - "hollow_fill" : openings keep black ink (walls are the only pastel
+                        element).
+    """
     channels = 1 if canvas.ndim == 2 else canvas.shape[2]
     ink = _ink_color(theme, channels)
     paper = _paper_color(theme, channels)
+    pastel = _rgb_to_cv(pastel_rgb, channels) if pastel_rgb else None
     h, w = canvas.shape[:2]
     ppm = px_per_mm((h, w))
     contour_thk = max(1, int(round(spec.wall.outline_px * ppm)))
     arc_thk = max(1, int(round(spec.door.arc_weight_px * ppm)))
     frame_thk = max(1, int(round(spec.window.frame_weight_px * ppm)))
 
+    line_colour = ink
+    if pastel_mode == "solid" and pastel is not None:
+        line_colour = pastel
+
     for op in openings:
         coords = np.array(list(op.polygon.exterior.coords), dtype=np.int32)
         cv2.fillPoly(canvas, [coords], color=paper)
         cv2.polylines(canvas, [coords], isClosed=True,
-                      color=ink, thickness=contour_thk, lineType=cv2.LINE_AA)
+                      color=line_colour, thickness=contour_thk,
+                      lineType=cv2.LINE_AA)
 
         if op.kind == "window":
             _draw_window_lines(canvas, coords, op.window_line_count,
-                               color=ink, thickness=frame_thk)
+                               color=line_colour, thickness=frame_thk)
         elif op.kind == "door":
-            _draw_door_arc(canvas, op, color=ink, thickness=arc_thk)
-            _draw_door_leaf(canvas, op, walls, color=ink, thickness=arc_thk)
+            _draw_door_arc(canvas, op, color=line_colour, thickness=arc_thk)
+            _draw_door_leaf(canvas, op, walls, color=line_colour,
+                            thickness=arc_thk)

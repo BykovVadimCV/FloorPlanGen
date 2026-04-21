@@ -37,10 +37,12 @@ class GeneratorConfig:
     text_language: str = "ru"   # "ru" or "en"
     text_prob: float = 0.70     # probability of rendering room labels
     # Layout
-    min_rooms: int = 3
-    max_rooms: int = 7
+    min_rooms: int = 5
+    max_rooms: int = 10
     # Canvas padding
     canvas_margin: int = 24
+    # Pastel-wall probability (§5.8 — 5% of plans ship with coloured walls).
+    pastel_wall_prob: float = 0.05
 
     def resolved_era(self, rng) -> str:
         if self.era is not None:

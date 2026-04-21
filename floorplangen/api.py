@@ -121,8 +121,19 @@ def _try_generate(seed: int, cfg: GeneratorConfig) -> GeneratorOutput:
     force_mono = bool(rng["theme"].random() < cfg.monochrome_prob)
     canvas = render_canvas(cfg.image_size, theme, force_mono)
     render_rooms(canvas, rooms, theme, rng["theme"])
-    render_walls(canvas, walls, theme, rng["theme"], spec=spec)
-    render_openings(canvas, openings, walls, theme, rng["theme"], spec=spec)
+
+    # Pastel-wall dice: ~5% of plans ship with coloured walls/openings.
+    pastel_mode: str | None = None
+    pastel_rgb: tuple[int, int, int] | None = None
+    if not force_mono and rng["theme"].random() < cfg.pastel_wall_prob:
+        from .rendering.pastel import pick_pastel
+        pastel_mode, pastel_rgb = pick_pastel(rng["theme"])
+
+    render_walls(canvas, walls, theme, rng["theme"], spec=spec,
+                 openings=openings, pastel_mode=pastel_mode,
+                 pastel_rgb=pastel_rgb)
+    render_openings(canvas, openings, walls, theme, rng["theme"], spec=spec,
+                    pastel_mode=pastel_mode, pastel_rgb=pastel_rgb)
     render_era_overlays(canvas, rooms, theme, spec)
     render_icons(canvas, icons, theme, rng["theme"])
     render_annotations(canvas, annotations, theme, rng["theme"])

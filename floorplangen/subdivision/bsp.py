@@ -11,9 +11,9 @@ from ..types import Footprint, Room
 from .room_types import sample_room_type
 from .split import half_plane_split
 
-MIN_AREA_PX_AT_512 = 4000.0
-MAX_ASPECT = 3.2
-MIN_SIDE_PX_AT_512 = 32.0
+MIN_AREA_PX_AT_512 = 1800.0
+MAX_ASPECT = 3.6
+MIN_SIDE_PX_AT_512 = 22.0
 
 
 def _scale_min(image_size, base):
@@ -149,7 +149,7 @@ def subdivide(footprint: Footprint, cfg: GeneratorConfig,
               rng: np.random.Generator) -> list[Room]:
     target = int(rng.integers(cfg.min_rooms, cfg.max_rooms + 1))
     cells: list[Polygon] = []
-    _subdivide_cell(footprint.polygon, 0, 8, target, cells, rng, cfg.image_size)
+    _subdivide_cell(footprint.polygon, 0, 12, target, cells, rng, cfg.image_size)
     if not cells:
         cells = [footprint.polygon]
 
