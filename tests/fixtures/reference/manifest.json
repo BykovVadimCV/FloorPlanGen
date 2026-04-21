@@ -1,7 +1,7 @@
 {
   "RECT_soviet": {
-    "mask_sha": "5ddc61f26c280a4f",
-    "class_mask_sha": "49529311aa408213",
+    "mask_sha": "04e8c0e407d0d6f7",
+    "class_mask_sha": "a3e125b76db6bebf",
     "image_shape": [
       512,
       512
@@ -10,12 +10,12 @@
       512,
       512
     ],
-    "wall_count": 55,
-    "room_count": 6
+    "wall_count": 63,
+    "room_count": 8
   },
   "RECT_transitional": {
-    "mask_sha": "6afe5a6695cf6e0f",
-    "class_mask_sha": "c52226e9556a40bd",
+    "mask_sha": "ad63cf66e1914c67",
+    "class_mask_sha": "981c8063b4df6ae2",
     "image_shape": [
       512,
       512
@@ -24,12 +24,12 @@
       512,
       512
     ],
-    "wall_count": 55,
-    "room_count": 6
+    "wall_count": 63,
+    "room_count": 8
   },
   "RECT_modern": {
-    "mask_sha": "05c219094675d654",
-    "class_mask_sha": "2df6a00515423686",
+    "mask_sha": "376c784945a7c62e",
+    "class_mask_sha": "6f13c5df3a3efc82",
     "image_shape": [
       512,
       512
@@ -38,12 +38,12 @@
       512,
       512
     ],
-    "wall_count": 55,
-    "room_count": 6
+    "wall_count": 63,
+    "room_count": 8
   },
   "L_soviet": {
-    "mask_sha": "cc567f7c771f19a0",
-    "class_mask_sha": "1aa2bc0777df9dc6",
+    "mask_sha": "ae649c4208c15672",
+    "class_mask_sha": "f10f067099c8a2d3",
     "image_shape": [
       512,
       512
@@ -52,12 +52,12 @@
       512,
       512
     ],
-    "wall_count": 38,
-    "room_count": 5
+    "wall_count": 52,
+    "room_count": 8
   },
   "L_transitional": {
-    "mask_sha": "f6069aa3ecc5d307",
-    "class_mask_sha": "46a9c8e4a9dadcaa",
+    "mask_sha": "318bd9835d51d87f",
+    "class_mask_sha": "d73ec721d48057fa",
     "image_shape": [
       512,
       512
@@ -66,12 +66,12 @@
       512,
       512
     ],
-    "wall_count": 38,
-    "room_count": 5
+    "wall_count": 52,
+    "room_count": 8
   },
   "L_modern": {
-    "mask_sha": "b591c09aaff5e939",
-    "class_mask_sha": "ee6b892b9bedc461",
+    "mask_sha": "aecb9b6f593ad484",
+    "class_mask_sha": "12f8205087e18de4",
     "image_shape": [
       512,
       512
@@ -80,12 +80,12 @@
       512,
       512
     ],
-    "wall_count": 38,
-    "room_count": 5
+    "wall_count": 52,
+    "room_count": 8
   },
   "T_soviet": {
-    "mask_sha": "f344ab702d5253be",
-    "class_mask_sha": "1fe694fd5133133a",
+    "mask_sha": "2ba8b3adce770c3a",
+    "class_mask_sha": "2054fe85332ec070",
     "image_shape": [
       512,
       512
@@ -94,12 +94,12 @@
       512,
       512
     ],
-    "wall_count": 49,
-    "room_count": 5
+    "wall_count": 59,
+    "room_count": 7
   },
   "T_transitional": {
-    "mask_sha": "b349852f4f3cceaa",
-    "class_mask_sha": "9d0ec1fa3c9d6b54",
+    "mask_sha": "a969663e880f3637",
+    "class_mask_sha": "c0e5dfe42af4dfb8",
     "image_shape": [
       512,
       512
@@ -108,12 +108,12 @@
       512,
       512
     ],
-    "wall_count": 49,
-    "room_count": 5
+    "wall_count": 59,
+    "room_count": 7
   },
   "T_modern": {
-    "mask_sha": "5b2f40510ac13247",
-    "class_mask_sha": "bbbcbb5f51746a2a",
+    "mask_sha": "6d3fc47832f44277",
+    "class_mask_sha": "8c36bdb6b613b8c7",
     "image_shape": [
       512,
       512
@@ -122,12 +122,12 @@
       512,
       512
     ],
-    "wall_count": 49,
-    "room_count": 5
+    "wall_count": 59,
+    "room_count": 7
   },
   "U_soviet": {
-    "mask_sha": "7c5b6b454269b9ba",
-    "class_mask_sha": "e012e8eacfa0d7a4",
+    "mask_sha": "b2b240e8086ac1af",
+    "class_mask_sha": "700eb4b7a4e5d1ec",
     "image_shape": [
       512,
       512
@@ -136,12 +136,12 @@
       512,
       512
     ],
-    "wall_count": 45,
-    "room_count": 5
+    "wall_count": 58,
+    "room_count": 8
   },
   "U_transitional": {
-    "mask_sha": "4b1b3b1acd1d1bd2",
-    "class_mask_sha": "1fbeeaca6a906406",
+    "mask_sha": "d6a2a35ede8eef8e",
+    "class_mask_sha": "d05b3720de706ee1",
     "image_shape": [
       512,
       512
@@ -150,12 +150,12 @@
       512,
       512
     ],
-    "wall_count": 45,
-    "room_count": 5
+    "wall_count": 58,
+    "room_count": 8
   },
   "U_modern": {
-    "mask_sha": "d20fea6917a4e2c4",
-    "class_mask_sha": "23757c0b3c7d582e",
+    "mask_sha": "8cb57aca5d9b1a39",
+    "class_mask_sha": "754f283480c6d8d8",
     "image_shape": [
       512,
       512
@@ -164,12 +164,12 @@
       512,
       512
     ],
-    "wall_count": 45,
-    "room_count": 5
+    "wall_count": 58,
+    "room_count": 8
   },
   "Z_soviet": {
-    "mask_sha": "4f2bd1dd8bdca2dc",
-    "class_mask_sha": "3b66150fccd0517e",
+    "mask_sha": "354cc492825c27c1",
+    "class_mask_sha": "171adc1b27b6c095",
     "image_shape": [
       512,
       512
@@ -178,12 +178,12 @@
       512,
       512
     ],
-    "wall_count": 46,
-    "room_count": 5
+    "wall_count": 53,
+    "room_count": 7
   },
   "Z_transitional": {
-    "mask_sha": "744f377b727ef018",
-    "class_mask_sha": "43c7980806a9a88e",
+    "mask_sha": "032a0f9d29fc2529",
+    "class_mask_sha": "5f42d7b2e57a6a6b",
     "image_shape": [
       512,
       512
@@ -192,12 +192,12 @@
       512,
       512
     ],
-    "wall_count": 46,
-    "room_count": 5
+    "wall_count": 53,
+    "room_count": 7
   },
   "Z_modern": {
-    "mask_sha": "bb76a2a8b778b3f8",
-    "class_mask_sha": "4ba656a9bc1a3197",
+    "mask_sha": "89db60129d535131",
+    "class_mask_sha": "4c61b59fa9328020",
     "image_shape": [
       512,
       512
@@ -206,12 +206,12 @@
       512,
       512
     ],
-    "wall_count": 46,
-    "room_count": 5
+    "wall_count": 53,
+    "room_count": 7
   },
   "STAIR_soviet": {
-    "mask_sha": "b1c6929992a507aa",
-    "class_mask_sha": "fc2be200634bac1e",
+    "mask_sha": "5b6eb50e29550282",
+    "class_mask_sha": "ed1085903339feb0",
     "image_shape": [
       512,
       512
@@ -220,12 +220,12 @@
       512,
       512
     ],
-    "wall_count": 57,
-    "room_count": 6
+    "wall_count": 64,
+    "room_count": 8
   },
   "STAIR_transitional": {
-    "mask_sha": "5a302becbef4d5d4",
-    "class_mask_sha": "4bf36f0f9718d6f7",
+    "mask_sha": "d4b4d4dbb1197c33",
+    "class_mask_sha": "d7e1c4ba4f6e31fe",
     "image_shape": [
       512,
       512
@@ -234,12 +234,12 @@
       512,
       512
     ],
-    "wall_count": 57,
-    "room_count": 6
+    "wall_count": 64,
+    "room_count": 8
   },
   "STAIR_modern": {
-    "mask_sha": "5199e7bbf87642aa",
-    "class_mask_sha": "e13fd1dd401d340f",
+    "mask_sha": "0edb2103977da782",
+    "class_mask_sha": "103f9dbee3845ad2",
     "image_shape": [
       512,
       512
@@ -248,12 +248,12 @@
       512,
       512
     ],
-    "wall_count": 57,
-    "room_count": 6
+    "wall_count": 64,
+    "room_count": 8
   },
   "BEVEL_soviet": {
-    "mask_sha": "fb349aa862882f13",
-    "class_mask_sha": "95749cddeeb45f00",
+    "mask_sha": "323ca8bcba0778f0",
+    "class_mask_sha": "bc073681a712aa49",
     "image_shape": [
       512,
       512
@@ -262,12 +262,12 @@
       512,
       512
     ],
-    "wall_count": 54,
-    "room_count": 6
+    "wall_count": 64,
+    "room_count": 8
   },
   "BEVEL_transitional": {
-    "mask_sha": "d35633431ea575d7",
-    "class_mask_sha": "578c7b5f5d76b589",
+    "mask_sha": "94c0eb6f3d83eee3",
+    "class_mask_sha": "7d4b05767d1fff78",
     "image_shape": [
       512,
       512
@@ -276,12 +276,12 @@
       512,
       512
     ],
-    "wall_count": 54,
-    "room_count": 6
+    "wall_count": 64,
+    "room_count": 8
   },
   "BEVEL_modern": {
-    "mask_sha": "4e1baad4516d24b5",
-    "class_mask_sha": "8b0021c340c7d0a7",
+    "mask_sha": "4e1c2b09b38000c2",
+    "class_mask_sha": "b6a1e4fc3ac5857b",
     "image_shape": [
       512,
       512
@@ -290,7 +290,7 @@
       512,
       512
     ],
-    "wall_count": 54,
-    "room_count": 6
+    "wall_count": 64,
+    "room_count": 8
   }
 }
