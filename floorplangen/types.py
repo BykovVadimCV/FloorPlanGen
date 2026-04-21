@@ -29,7 +29,7 @@ CLASS_PIXEL_MAP: dict[int, int] = {
 }
 PIXEL_VALUES: set[int] = set(CLASS_PIXEL_MAP.keys())
 
-EraId = Literal["scan", "digital", "soviet"]
+EraId = Literal["soviet", "transitional", "modern"]
 AugPreset = Literal["clean", "medium", "heavy"]
 
 
@@ -91,6 +91,10 @@ class Opening:
     wall_index: int = -1       # index into WallGraph.segments
     swing_arc: Polygon | None = None  # doors only; part of class-3 footprint
     bbox: tuple[float, float, float, float] = (0.0, 0.0, 0.0, 0.0)
+    # Door-only: drawn leaf angle from wall axis (30° or 90° per era).
+    leaf_angle_deg: float = 90.0
+    # Window-only: number of parallel frame lines (2, 3 or 4).
+    window_line_count: int = 3
 
     @property
     def class_polygon(self) -> Polygon:

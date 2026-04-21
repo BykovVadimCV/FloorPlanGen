@@ -29,7 +29,7 @@ if str(ROOT) not in sys.path:
 from floorplangen import GeneratorConfig, generate_sample  # noqa: E402
 
 PRIMITIVES = ["RECT", "L", "T", "U", "Z", "STAIR", "BEVEL"]
-ERAS = ["scan", "digital", "soviet"]
+ERAS = ["soviet", "transitional", "modern"]
 FIXTURES_DIR = ROOT / "tests" / "fixtures" / "reference"
 SEED = 42
 IMAGE_SIZE = (512, 512)

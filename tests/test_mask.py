@@ -14,7 +14,7 @@ from floorplangen.mask.validate import validate_mask
 
 PRIMITIVES = ["RECT", "L", "T", "U", "Z", "STAIR", "BEVEL"]
 AGGRESSIONS = [0.0, 0.5, 1.0]
-ERAS = ["scan", "digital", "soviet"]
+ERAS = ["soviet", "transitional", "modern"]
 
 
 @pytest.mark.parametrize("era", ERAS)

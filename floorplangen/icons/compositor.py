@@ -8,9 +8,10 @@ from shapely.affinity import rotate, translate
 from shapely.geometry import Polygon, box
 
 from ..config import GeneratorConfig
+from ..linework import get_linework
 from ..types import Footprint, PlacedIcon, Room, WallGraph
 from .loader import IconAsset, IconPack, get_cached_pack
-from .mapping import ROOM_ICON_CATEGORIES
+from .mapping import room_icon_categories
 
 
 def _rotate_rgba(rgba: np.ndarray, angle_deg: int) -> np.ndarray:
@@ -47,10 +48,11 @@ def place_icons(footprint: Footprint, rooms: list[Room], walls: WallGraph,
 
     h_img, w_img = cfg.image_size
     canvas_area = float(h_img * w_img)
+    spec = get_linework(era)
     placed: list[PlacedIcon] = []
 
     for room in rooms:
-        cats = ROOM_ICON_CATEGORIES.get(room.room_type, [])
+        cats = room_icon_categories(room.room_type, spec)
         room_frac = room.area_px / canvas_area
         # Per-room icon budget (§7.9)
         n_icons = max(0, min(3, int(rng.integers(1, 4))))

@@ -14,7 +14,7 @@ from floorplangen.walls import build_wall_graph
 IMG = (512, 512)
 
 
-def _build(seed: int, aggression: float = 0.5, era: str = "scan"):
+def _build(seed: int, aggression: float = 0.5, era: str = "transitional"):
     rng = bundle_from_seed(seed)
     fp = generate_footprint(IMG, aggression, rng["footprint"], margin=16)
     cfg = GeneratorConfig()
@@ -44,7 +44,9 @@ def test_wall_bands_are_valid_polygons(seed: int) -> None:
 @pytest.mark.parametrize("seed", [1, 7, 42])
 def test_all_walls_within_expanded_footprint(seed: int) -> None:
     fp, _, walls = _build(seed)
-    padded = fp.polygon.buffer(10.0)  # allow wall half-thickness on exterior
+    # Guidelines §5.1 allows capital walls up to ~6 mm (1:100) which at
+    # 512×512 is ~38 px; use a 25 px buffer to cover half-thickness + slack.
+    padded = fp.polygon.buffer(25.0)
     for seg in walls.segments:
         band = seg.ensure_band()
         assert padded.contains(band.buffer(-0.1)) or padded.intersection(band).area / band.area > 0.90

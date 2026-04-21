@@ -27,7 +27,7 @@ def _load_manifest() -> dict:
 
 @pytest.mark.parametrize("stem", sorted([
     f"{p}_{e}" for p in ["RECT", "L", "T", "U", "Z", "STAIR", "BEVEL"]
-    for e in ["scan", "digital", "soviet"]
+    for e in ["soviet", "transitional", "modern"]
 ]))
 def test_mask_matches_reference(stem: str, icon_pack_dir: Path) -> None:
     manifest = _load_manifest()

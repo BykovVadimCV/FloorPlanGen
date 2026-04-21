@@ -32,7 +32,8 @@ class IconAsset:
 
     @property
     def era_compatible(self) -> list[str]:
-        return list(self.sidecar.get("era_compatible", ["scan", "digital", "soviet"]))
+        return list(self.sidecar.get("era_compatible",
+                                     ["soviet", "transitional", "modern"]))
 
     @property
     def min_room_area_frac(self) -> float:

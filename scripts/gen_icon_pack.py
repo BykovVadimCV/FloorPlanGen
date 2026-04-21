@@ -249,7 +249,7 @@ def build(out: Path) -> None:
             sidecar = {
                 "category": category,
                 "anchor": [0.5, 0.5],
-                "era_compatible": ["scan", "digital", "soviet"],
+                "era_compatible": ["soviet", "transitional", "modern"],
             }
             sidecar.update(sidecar_extra)
             _save(im, out / category / f"{stem}.png", sidecar)

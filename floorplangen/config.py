@@ -5,8 +5,17 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Literal
 
-ERA_MIX_DEFAULT: dict[str, float] = {"scan": 0.60, "digital": 0.25, "soviet": 0.15}
-ERA_TO_PRESET: dict[str, str] = {"digital": "clean", "scan": "medium", "soviet": "heavy"}
+# Era mix default per Guidelines §5.9 (30% soviet / 40% transitional / 30% modern).
+ERA_MIX_DEFAULT: dict[str, float] = {
+    "soviet": 0.30,
+    "transitional": 0.40,
+    "modern": 0.30,
+}
+ERA_TO_PRESET: dict[str, str] = {
+    "modern": "clean",
+    "transitional": "medium",
+    "soviet": "heavy",
+}
 
 
 @dataclass
@@ -15,7 +24,7 @@ class GeneratorConfig:
     image_size: tuple[int, int] = (512, 512)
     monochrome_prob: float = 0.70
     # Sampling
-    era: Literal["scan", "digital", "soviet"] | None = None
+    era: Literal["soviet", "transitional", "modern"] | None = None
     era_mix: dict[str, float] = field(default_factory=lambda: dict(ERA_MIX_DEFAULT))
     aggression: float | None = None  # None => sampled Uniform(0, 1)
     forced_primitive: str | None = None  # debug/testing: force a specific primitive id

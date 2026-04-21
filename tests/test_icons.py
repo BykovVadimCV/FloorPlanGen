@@ -39,8 +39,8 @@ def test_icons_placed_within_rooms(seed: int, icon_pack_dir: Path) -> None:
     cfg = GeneratorConfig()
     cfg.icon_pack_dir = icon_pack_dir
     rooms = subdivide(fp, cfg, rng["subdivision"])
-    walls = build_wall_graph(fp, rooms, cfg, rng["walls"], rng["diagonal"], era="scan")
-    icons = place_icons(fp, rooms, walls, cfg, rng["icons"], era="scan")
+    walls = build_wall_graph(fp, rooms, cfg, rng["walls"], rng["diagonal"], era="transitional")
+    icons = place_icons(fp, rooms, walls, cfg, rng["icons"], era="transitional")
 
     for icon in icons:
         assert icon.footprint_polygon.is_valid
